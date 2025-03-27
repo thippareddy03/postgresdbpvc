@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgressdb
+  labels:
+    env: dev
+spec:
+  containers:
+    - name: postgresspod
+      image: postgres:latest
+      ports:
+        - name: postgres
+          protocol: TCP
+          containerPort: 5432
+      env:
+        - name: POSTGRES_USER
+          value: username
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_DB
+          value: my_postgresdb
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512M
+        limits:
+          cpu: 400m
+          memory: 1G
+      volumeMounts:
+        - name: postgresvol
+          mountPath: /var/lib/postgresql/data
+  volumes:
+    - name: postgresvol
+      persistentVolumeClaim:
+        claimName: postgresspvc
