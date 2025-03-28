@@ -13,13 +13,9 @@ spec:
         - name: postgres
           protocol: TCP
           containerPort: 5432
-      env:
-        - name: POSTGRES_USER
-          value: username
-        - name: POSTGRES_PASSWORD
-          value: password
-        - name: POSTGRES_DB
-          value: my_postgresdb
+      envFrom:
+        - configMapRef:
+            name: postgress-config
       resources:
         requests:
           cpu: 200m
